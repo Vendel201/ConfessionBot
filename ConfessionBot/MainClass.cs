@@ -36,7 +36,7 @@ namespace ConfessionBot
 
             await _services.GetRequiredService<CommandHandlingService>().InitializeAsync();
 
-            await _discord.SetGameAsync("DM me with !help");
+            await _discord.SetGameAsync("pp");
 
             // Keep the thing running...
             while (true)
@@ -49,7 +49,7 @@ namespace ConfessionBot
         {
             if (arg.Channel.Name.StartsWith("@Vendell"))
             {
-                //await _discord.GetGuild(788977623039606794).GetTextChannel(789705281209761802).SendMessageAsync(arg.Content);
+                await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).SendMessageAsync(arg.Content);
 
 
                 //var u = await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).GetMessageAsync(839900936663072778);
