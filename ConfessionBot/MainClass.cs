@@ -13,7 +13,7 @@ namespace ConfessionBot
 {
     public class MainClass
     {
-        private string _botToken = "Nzk5MzkyOTA4NDIzMDY5NzE3.YAC6qQ.FUn-GB8ELrRp-zigSVoWB3qhBhk";
+        private string _botToken = botToken.cock;
 
         private ServiceProvider _services;
         public DiscordSocketClient _discord;
@@ -36,7 +36,7 @@ namespace ConfessionBot
 
             await _services.GetRequiredService<CommandHandlingService>().InitializeAsync();
 
-            await _discord.SetGameAsync("pp");
+            await _discord.SetGameAsync("DM me with !help");
 
             // Keep the thing running...
             while (true)
@@ -49,23 +49,8 @@ namespace ConfessionBot
         {
             if (arg.Channel.Name.StartsWith("@Vendell"))
             {
-                await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).SendMessageAsync(arg.Content);
-
-
-                //var u = await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).GetMessageAsync(839900936663072778);
-                //var user = u.Author;
-                //var channel = await user.GetOrCreateDMChannelAsync();
-                //await channel.SendMessageAsync(arg.Content);
-
-
-                //IDMChannel c = await u.GetOrCreateDMChannelAsync();
-                //await c.SendMessageAsync("FEEL MY W̌̇̎R͛̑̾Aͥ̒̉T̎ͭ͊Ȟ̂̑");
+                //await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).SendMessageAsync(arg.Content);
             }
-
-            //if (arg.Channel.Name.StartsWith("@u42"))
-            //{
-            //    Console.WriteLine(arg.Content);
-            //}
 
             if (arg.Channel.Name.StartsWith("@"))
             { 
@@ -80,11 +65,6 @@ namespace ConfessionBot
 
                 if (arg.ToString().StartsWith("!confess"))
                 {
-                    //if (arg.Channel.Name == "fauxxlore#3374")
-                    //{
-                    //    return;
-                    //}
-
                     string message = arg.ToString();
                     string confession = message[8..];
 
@@ -93,7 +73,7 @@ namespace ConfessionBot
                     {
                         await arg.Channel.SendMessageAsync("You dumb fucking cretin, you fucking fool, absolute fucking buffoon, you bumbling idiot. Fuck you. Fuck you and your @everyone. I'm not an idiot. I might hate you, myself, and your shitty little server, but I've got decency. Something you seem to lack. Go dig yourself a hole you shitty little wankstain. Birthing you was a mistake. I hope you and your hopes and dreams die in a fire and noone will even remember your existence. Fuck you.");
                         await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).SendMessageAsync($"Your pal {arg.Author.Mention} just tried to ping everyone. Go and flame the shit out of them!");
-                        //await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"Your pal {arg.Author.Mention} just tried to ping everyone. Go and flame the shit out of them!");
+                        await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"Your pal {arg.Author.Mention} just tried to ping everyone. Go and flame the shit out of them!");
                         await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"||{arg.Channel.Name}|| tried to ping @everyone.");
                         await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"||{arg.Channel.Name} (ID:{arg.Author.Id}) || confessed to{confession}");
                         return;
