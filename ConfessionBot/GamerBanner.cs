@@ -38,7 +38,7 @@ namespace ConfessionBot
                             if (activityName == games[2]) lolser.game = "Genshin Impact";
                             lolser.user = item;
 
-                            if (!listOfLoLsers.Contains(lolser))
+                            if (!listOfLoLsers.Any(item => item.user == lolser.user))
                             {
                                 Console.WriteLine(lolser.user.Username + ": " + lolser.game + " has been added to the LoLsers.");
                                 listOfLoLsers.Add(lolser);
@@ -56,15 +56,18 @@ namespace ConfessionBot
                 LoLser.timePlayed++;
                 if (LoLser.timePlayed >= 10)
                 {
-                    await LoLser.user.SendMessageAsync("You scum. You played " + LoLser.game + " for more than 10 minutes. How could you commit such war crimes. This is against the geneva conventions. Get p0wnd skrub.");
-                    await LoLser.user.BanAsync(0, "Plays " + LoLser.game + ". EW.");
-                    await MainClass.bannedMessage(LoLser);
+                    for (int i = 1; i < 20; i++)
+                    {
+                        System.Threading.Thread.Sleep(500);
+                        await LoLser.user.SendMessageAsync("You scum. You played " + LoLser.game + " for more than 10 minutes. How could you commit such war crimes. This is against the geneva conventions. Get p0wnd skrub.");
+                    }
+                    await MainClass.spammedMessage(LoLser);
                     listOfLoLsers.Remove(LoLser);
-                    listOfMembers.Remove(LoLser.user);
                 }
             }
         }
     }
+
 
     public class LoLser
     {
