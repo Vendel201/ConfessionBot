@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace ConfessionBot
 {
@@ -16,17 +17,22 @@ namespace ConfessionBot
         private string _botToken = botToken.cock;
 
         private ServiceProvider _services;
-        public DiscordSocketClient _discord;
+        public static DiscordSocketClient _discord;
         private CommandService _commands;
 
         private Dictionary<ulong, DateTime> _lastZapped = new Dictionary<ulong, DateTime>();
         private Dictionary<ulong, IAudioClient> _connections = new Dictionary<ulong, IAudioClient>();
 
+        public Timer banTimer = new Timer();
+
         public async Task Run()
         {
-            _services = ConfigureServices();
-            _discord = _services.GetRequiredService<DiscordSocketClient>();
-            _commands = new CommandService();
+            var config = new DiscordSocketConfig()
+            {
+                GatewayIntents = GatewayIntents.All
+            };
+
+            _discord = new DiscordSocketClient(config);
             _discord.Log += LogAsync;
 
             _discord.MessageReceived += MessageReceived;
@@ -34,15 +40,36 @@ namespace ConfessionBot
             await _discord.LoginAsync(TokenType.Bot, _botToken);
             await _discord.StartAsync();
 
-            await _services.GetRequiredService<CommandHandlingService>().InitializeAsync();
-
             await _discord.SetGameAsync("DM me with !help");
+
+            banTimer.Elapsed += GamerBanner.onTimedEvent;
+            banTimer.Interval = 60000;
+            banTimer.AutoReset = true;
+            banTimer.Enabled = true;
+
+            _discord.Ready += getGuildMembers;
 
             // Keep the thing running...
             while (true)
             {
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
+        }
+
+        private async Task getGuildMembers()
+        {
+            await _discord.GetGuild(931739195570016317).DownloadUsersAsync();
+            foreach (var item in _discord.GetGuild(931739195570016317).Users)
+            {
+                GamerBanner.listOfMembers.Add(item);
+            }
+
+            Console.WriteLine("Guild members got.");
+        }
+
+        public static async Task bannedMessage(LoLser user)
+        {
+            await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(user.user.Username + " got banned for playing too much " + user.game + ", he disgusts me. But so do all of you. Just he disgusts me more.");
         }
 
         private async Task MessageReceived(SocketMessage arg)
@@ -55,7 +82,7 @@ namespace ConfessionBot
 
             //if channel is a DM
             if (arg.Channel.Name.StartsWith("@"))
-            { 
+            {
                 //Help Message
                 if (arg.ToString().StartsWith("!help"))
                 {
@@ -84,7 +111,7 @@ namespace ConfessionBot
                         //Log
                         await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"||{arg.Channel.Name}|| tried to ping @everyone.");
                         return;
-                    }   
+                    }
 
                     //Regular Confession
                     if (confession != "")
@@ -121,21 +148,10 @@ namespace ConfessionBot
             }
         }
 
-        private ServiceProvider ConfigureServices()
-        {
-            return new ServiceCollection()
-                .AddSingleton<DiscordSocketClient>()
-                .AddSingleton<CommandService>()
-                .AddSingleton<CommandHandlingService>()
-                .AddSingleton<HttpClient>()
-                .BuildServiceProvider();
-        }
-
         private Task LogAsync(LogMessage log)
         {
             Console.WriteLine(log.ToString());
             return Task.CompletedTask;
         }
     }
-
 }
