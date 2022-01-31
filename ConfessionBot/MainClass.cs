@@ -64,12 +64,13 @@ namespace ConfessionBot
                 GamerBanner.listOfMembers.Add(item);
             }
 
+            GamerBanner.checkGame();
             Console.WriteLine("Guild members got.");
         }
 
-        public static async Task bannedMessage(LoLser user)
+        public static async Task spammedMessage(LoLser user)
         {
-            await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(user.user.Username + " got banned for playing too much " + user.game + ", he disgusts me. But so do all of you. Just he disgusts me more.");
+            await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(user.user.Username + " got spammed for playing too much " + user.game + ", he disgusts me. But so do all of you. Just he disgusts me more.");
         }
 
         private async Task MessageReceived(SocketMessage arg)
