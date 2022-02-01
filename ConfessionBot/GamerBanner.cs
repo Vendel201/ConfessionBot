@@ -37,7 +37,7 @@ namespace ConfessionBot
                             if (activityName == games[1]) lolser.game = "Overwatch";
                             if (activityName == games[2]) lolser.game = "Genshin Impact";
                             lolser.user = item;
-
+                            lolser.spammed = false;
                             if (!listOfLoLsers.Any(item => item.user == lolser.user))
                             {
                                 Console.WriteLine(lolser.user.Username + ": " + lolser.game + " has been added to the LoLsers.");
@@ -54,7 +54,7 @@ namespace ConfessionBot
             foreach (var LoLser in listOfLoLsers.ToArray())
             {
                 LoLser.timePlayed++;
-                if (LoLser.timePlayed >= 10)
+                if (LoLser.timePlayed >= 10 && LoLser.spammed == false)
                 {
                     for (int i = 1; i < 20; i++)
                     {
@@ -62,7 +62,7 @@ namespace ConfessionBot
                         await LoLser.user.SendMessageAsync("You scum. You played " + LoLser.game + " for more than 10 minutes. How could you commit such war crimes. This is against the geneva conventions. Get p0wnd skrub.");
                     }
                     await MainClass.spammedMessage(LoLser);
-                    listOfLoLsers.Remove(LoLser);
+                    LoLser.spammed = true;
                 }
             }
         }
@@ -71,6 +71,7 @@ namespace ConfessionBot
 
     public class LoLser
     {
+        public bool spammed { get; set; }
         public string game { get; set; }
         public int timePlayed { get; set; }
         public SocketGuildUser user { get; set; }
