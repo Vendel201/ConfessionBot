@@ -56,11 +56,11 @@ namespace ConfessionBot
                 LoLser.timePlayed++;
                 if (LoLser.timePlayed >= 10 && LoLser.spammed == false)
                 {
-                    for (int i = 1; i < 20; i++)
-                    {
-                        System.Threading.Thread.Sleep(500);
-                        await LoLser.user.SendMessageAsync("You scum. You played " + LoLser.game + " for more than 10 minutes. How could you commit such war crimes. This is against the geneva conventions. Get p0wnd skrub.");
-                    }
+                    //for (int i = 1; i < 20; i++)
+                    //{
+                    //    System.Threading.Thread.Sleep(500);
+                    //    await LoLser.user.SendMessageAsync("You scum. You played " + LoLser.game + " for more than 10 minutes. How could you commit such war crimes. This is against the geneva conventions. Get p0wnd skrub.");
+                    //}
                     await MainClass.spammedMessage(LoLser);
                     LoLser.spammed = true;
                 }

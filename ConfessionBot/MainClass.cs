@@ -70,7 +70,7 @@ namespace ConfessionBot
 
         public static async Task spammedMessage(LoLser user)
         {
-            await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(user.user.Username + " got spammed for playing too much " + user.game + ", he disgusts me. But so do all of you. Just he disgusts me more.");
+            await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(user.user.Username + " has been playing " + user.game + ", for more than ten minutes. He disgusts me. But so do all of you. Just, he disgusts me more.");
         }
 
         private async Task MessageReceived(SocketMessage arg)
@@ -78,7 +78,7 @@ namespace ConfessionBot
             //Special Messages
             if (arg.Channel.Name.StartsWith("@Vendell"))
             {
-                //await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).SendMessageAsync(arg.Content);
+                //await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(arg.Content);
             }
 
             //if channel is a DM
