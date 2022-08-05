@@ -70,7 +70,7 @@ namespace ConfessionBot
 
         public static async Task spammedMessage(LoLser user)
         {
-            await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(user.user.Username + " has been playing " + user.game + ", for more than ten minutes. He disgusts me. But so do all of you. Just, he disgusts me more.");
+            await _discord.GetGuild(931739195570016317).GetTextChannel(980060148846460959).SendMessageAsync(user.user.Username + " has been playing " + user.game + ", for more than ten minutes. He disgusts me. But so do all of you. Just, he disgusts me more.");
         }
 
         private async Task MessageReceived(SocketMessage arg)
@@ -78,7 +78,7 @@ namespace ConfessionBot
             //Special Messages
             if (arg.Channel.Name.StartsWith("@Vendell"))
             {
-                //await _discord.GetGuild(931739195570016317).GetTextChannel(931783764407881818).SendMessageAsync(arg.Content);
+                //var a = await _discord.GetGuild(931739195570016317).GetTextChannel(931739195570016320).SendMessageAsync(arg.Content);
             }
 
             //if channel is a DM
@@ -109,8 +109,6 @@ namespace ConfessionBot
                         await _discord.GetGuild(931739195570016317).GetTextChannel(933838262232039425).SendMessageAsync($"Your pal {arg.Author.Mention} just tried to ping everyone. Go and flame the shit out of them!");
                         //Original Average
                         await _discord.GetGuild(788977623039606794).GetTextChannel(799436478975180831).SendMessageAsync($"Your pal {arg.Author.Mention} just tried to ping everyone. Go and flame the shit out of them!");
-                        //Log
-                        await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"||{arg.Channel.Name}|| tried to ping @everyone.");
                         return;
                     }
 
@@ -122,7 +120,6 @@ namespace ConfessionBot
                         //Original Average
                         await _discord.GetGuild(788977623039606794).GetTextChannel(799427769720242216).SendMessageAsync(confession);
                         //Log
-                        await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"||{arg.Channel.Name} (ID:{arg.Author.Id}) || confessed to{confession}");
                     }
 
                     //Attachments
@@ -137,8 +134,6 @@ namespace ConfessionBot
                             await _discord.GetGuild(931739195570016317).GetTextChannel(933838262232039425).SendMessageAsync(url);
                             //Original Average
                             await _discord.GetGuild(788977623039606794).GetTextChannel(799427769720242216).SendMessageAsync(url);
-                            //Log
-                            await _discord.GetGuild(799425879306403851).GetTextChannel(799425879306403854).SendMessageAsync($"||{arg.Channel.Name} (ID:{arg.Author.Id}) || confessed to{url}");
                         }
                         catch (Exception e)
                         {
