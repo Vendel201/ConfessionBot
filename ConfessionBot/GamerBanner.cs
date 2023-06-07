@@ -13,7 +13,7 @@ namespace ConfessionBot
         public static List<SocketGuildUser> listOfMembers = new List<SocketGuildUser>();
         public static List<LoLser> listOfLoLsers = new List<LoLser>();
 
-        public static string[] games = { "LEAGUE OF LEGENDS", "OVERWATCH", "GENSHIN IMPACT", "WAR THUNDER" };
+        public static string[] games = { "LEAGUE OF LEGENDS", "OVERWATCH", "GENSHIN IMPACT", "WAR THUNDER", "DOTA" };
 
         public static void onTimedEvent(Object source, ElapsedEventArgs e)
         {
@@ -33,10 +33,12 @@ namespace ConfessionBot
                         if (games.Any(activityName.Contains))
                         {
                             LoLser lolser = new LoLser();
-                            if (activityName == games[0]) lolser.game = "League of Legends";
-                            if (activityName == games[1]) lolser.game = "Overwatch";
-                            if (activityName == games[2]) lolser.game = "Genshin Impact";
-                            if (activityName == games[3]) lolser.game = "War Thunder";
+                            
+                            if (activityName.Contains(games[0])) lolser.game = "League of Legends";
+                            if (activityName.Contains(games[1])) lolser.game = "Overwatch 2";
+                            if (activityName.Contains(games[2])) lolser.game = "Genshin Impact";
+                            if (activityName.Contains(games[3])) lolser.game = "War Thunder";
+                            if (activityName.Contains(games[4])) lolser.game = "Dota 2";
                             lolser.user = item;
                             lolser.spammed = false;
                             if (!listOfLoLsers.Any(item => item.user == lolser.user))

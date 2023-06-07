@@ -5,8 +5,11 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -23,7 +26,9 @@ namespace ConfessionBot
         private Dictionary<ulong, DateTime> _lastZapped = new Dictionary<ulong, DateTime>();
         private Dictionary<ulong, IAudioClient> _connections = new Dictionary<ulong, IAudioClient>();
 
-        public Timer banTimer = new Timer();
+        public System.Timers.Timer banTimer = new System.Timers.Timer();
+
+        IEmote reactEmote;
 
         public async Task Run()
         {
@@ -45,9 +50,9 @@ namespace ConfessionBot
             banTimer.Elapsed += GamerBanner.onTimedEvent;
             banTimer.Interval = 60000;
             banTimer.AutoReset = true;
-            banTimer.Enabled = true;
+            //banTimer.Enabled = true;
 
-            _discord.Ready += getGuildMembers;
+            //_discord.Ready += getGuildMembers;
 
             // Keep the thing running...
             while (true)
@@ -66,19 +71,44 @@ namespace ConfessionBot
 
             GamerBanner.checkGame();
             Console.WriteLine("Guild members got.");
+
+            reactEmote = await _discord.GetGuild(931739195570016317).GetEmoteAsync(981019525615067177);
+
+            //var audioClient = await _discord.GetGuild(931739195570016317).GetVoiceChannel(931771003741302854).ConnectAsync();
+
+            //var psi = new ProcessStartInfo
+            //{
+            //    FileName = "ffmpeg",
+            //    Arguments = $@"-stream_loop -1 -i ""wham.mp3"" -ac 2 -f s16le -ar 48000 pipe:1",
+            //    RedirectStandardOutput = true,
+            //    UseShellExecute = false
+            //};
+            //var ffmpeg = Process.Start(psi);
+
+            //var output = ffmpeg.StandardOutput.BaseStream;
+            //var discord = audioClient.CreatePCMStream(AudioApplication.Voice);
+            //await output.CopyToAsync(discord);
+            //await discord.FlushAsync();
         }
 
         public static async Task spammedMessage(LoLser user)
         {
-            await _discord.GetGuild(931739195570016317).GetTextChannel(980060148846460959).SendMessageAsync(user.user.Username + " has been playing " + user.game + ", for more than ten minutes. He disgusts me. But so do all of you. Just, he disgusts me more.");
+            await _discord.GetGuild(931739195570016317).GetTextChannel(980060148846460959).SendMessageAsync(user.user.Username + " has been playing " + user.game + " for more than ten minutes. He disgusts me. But so do all of you. Just, he disgusts me more.");
         }
 
         private async Task MessageReceived(SocketMessage arg)
         {
+            if (arg.Content.Contains("this") && !arg.Channel.Name.StartsWith("@"))
+            {
+                await arg.AddReactionAsync(reactEmote);
+                Thread.Sleep(100);
+                await arg.RemoveAllReactionsAsync();
+            }
+
             //Special Messages
             if (arg.Channel.Name.StartsWith("@Vendell"))
             {
-                //var a = await _discord.GetGuild(931739195570016317).GetTextChannel(931739195570016320).SendMessageAsync(arg.Content);
+                //var a = await _discord.GetGuild(931739195570016317).GetTextChannel(980060148846460959).SendMessageAsync(arg.Content);
             }
 
             //if channel is a DM
